@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue3响应式原理</title>
+</head>
+<script>
+    let person = {
+        name:'张三',
+        age:18
+    }
+    const p = new Proxy(person,{
+        // 有人读取p的某个属性时调用
+        get(target,propName){
+            console.log(`有人读取了p身上的${propName}属性`);
+            return Reflect.get(target,propName)
+        },
+        // 有人修改或者追加p的某个属性时调用
+        set(target,propName,value){
+            console.log(`有人修改了p身上的${propName}属性，我要去更新数据了!`);
+            return Reflect.get(target,propName,value)
+        },
+        // 有人删除p身上的某个属性时调用
+        deleteProperty(target,propName){
+            console.log(`有人删除了p身上的${propName}属性，我要去更新数据了!`);
+            return Reflect.deleteProperty(target,propName)
+        }
+    })
+</script>
+<body>
+    
+</body>
+</html>
